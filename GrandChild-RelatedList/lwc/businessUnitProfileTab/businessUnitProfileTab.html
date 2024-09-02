@@ -1,0 +1,20 @@
+<template>
+  <lightning-accordion if:true={sections.length}>
+    <template for:each={sections} for:item="s">
+      <lightning-accordion-section key={s.Id} name={s.Id} label={s.Section_Name__c}>
+        <template if:true={s.SingleRecordMode__c}>
+          <lightning-record-form object-api-name={s.Object__c} fields={s.fieldList} record-id={profileId} mode="view">
+          </lightning-record-form>
+        </template>
+        <template if:false={s.SingleRecordMode__c}>
+          <c-business-unit-profile-section
+            record-id={recordId}
+            parent-rec-id={parentRecId}
+            profile-id={profileId}
+            section={s}
+          ></c-business-unit-profile-section>
+        </template>
+      </lightning-accordion-section>
+    </template>
+  </lightning-accordion>
+</template>

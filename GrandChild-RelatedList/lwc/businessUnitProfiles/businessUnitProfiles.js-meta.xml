@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>57.0</apiVersion>
+    <description>Used to display details about related records specific to a business unit.</description>
+    <isExposed>true</isExposed>
+    <masterLabel>Business Unit Profiles</masterLabel>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property name="relatedObject" label="Related Object" type="String" />
+            <property name="parentRecordField" label="Parent Record Field" type="String" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

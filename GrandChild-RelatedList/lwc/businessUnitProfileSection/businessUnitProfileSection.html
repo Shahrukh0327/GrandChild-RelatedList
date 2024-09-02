@@ -1,0 +1,121 @@
+<template>
+  <article class="slds-card slds-card_boundary">
+    <div class="slds-page-header slds-page-header_joined slds-shrink-none slds-grid">
+      <header class="slds-media slds-media_center slds-has-flexi-truncate">
+        <div class="slds-media__figure">
+          <lightning-icon icon-name={section.Icon__c} size="small"></lightning-icon>
+        </div>
+        <div class="slds-media__body">
+          <h2 class="slds-card__header-title" title={section.Section_Name__c}>
+            <span>{section.Section_Name__c} ({recordCount})</span>
+          </h2>
+        </div>
+        <template if:true={isFileList}>
+          <lightning-button-menu alternative-text="Show menu" onselect={handleOnselectMenuItem}>
+            <lightning-menu-item value="add_files" label="Add Files"></lightning-menu-item>
+          </lightning-button-menu>
+        </template>
+      </header>
+    </div>
+    <div class="slds-card__body slds-card__body_inner">
+      <template for:each={records} for:item="r">
+        <lightning-record-view-form key={r.id} record-id={r.id} density="compact" object-api-name={section.Object__c}>
+          <article class="slds-tile slds-media slds-card__tile slds-hint-parent">
+            <div class="slds-media__figure">
+              <lightning-icon icon-name={section.Icon__c}></lightning-icon>
+            </div>
+            <div class="slds-media__body">
+              <div class="slds-grid slds-grid_align-spread slds-has-flexi-truncate">
+                <h3 class="slds-truncate">
+                  <template if:false={isFileList}>
+                    <a href={r.url}>
+                      <lightning-output-field
+                        class="titlelink"
+                        field-name={section.RecordTitleField__c}
+                        variant="label-hidden"
+                      >
+                      </lightning-output-field>
+                    </a>
+                  </template>
+                  <template if:true={isFileList}>
+                    <a>
+                      <span class="titlelink" data-id={r.id} onclick={previewHandler}>{r.title}</span>
+                    </a>
+                  </template>
+                </h3>
+              </div>
+              <div class="slds-tile__detail">
+                <dl class="slds-list_horizontal slds-wrap">
+                  <template for:each={fields} for:item="f">
+                    <dt key={f.label} class="slds-item_label slds-text-color_weak slds-truncate" title={f.label}>
+                      {f.label}:
+                    </dt>
+                    <dd key={f.fieldName} class="slds-item_detail">
+                      <lightning-output-field variant="label-hidden" field-name={f.fieldName}> </lightning-output-field>
+                    </dd>
+                  </template>
+                </dl>
+              </div>
+            </div>
+          </article>
+        </lightning-record-view-form>
+      </template>
+    </div>
+    <template if:true={records.length}>
+      <footer class="slds-card__footer">
+        <a class="slds-card__footer-action" onclick={handleViewAll}>View All</a>
+      </footer>
+    </template>
+  </article>
+
+  <!-- modal start -->
+  <template if:true={isShowAddFileModal}>
+    <section
+      role="dialog"
+      tabindex="-1"
+      aria-labelledby="modal-heading-01"
+      aria-modal="true"
+      aria-describedby="modal-content-id-1"
+      class="slds-modal slds-fade-in-open"
+    >
+      <div class="slds-modal__container">
+        <!-- modal header start -->
+        <header class="slds-modal__header">
+          <button
+            class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+            title="Close"
+            onclick={hideModalBox}
+          >
+            <lightning-icon
+              icon-name="utility:close"
+              alternative-text="close"
+              variant="inverse"
+              size="small"
+            ></lightning-icon>
+            <span class="slds-assistive-text">Close</span>
+          </button>
+          <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Add Files</h2>
+        </header>
+
+        <!-- modal body start -->
+        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+          <lightning-file-upload
+            name="fileUploader"
+            accept={acceptedFormats}
+            record-id={profileId}
+            onuploadfinished={handleUploadFinished}
+            multiple
+          >
+          </lightning-file-upload>
+        </div>
+
+        <!-- modal footer start-->
+        <footer class="slds-modal__footer">
+          <button class="slds-button slds-button_neutral" onclick={hideModalBox}>Cancel</button>
+        </footer>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </template>
+  <!-- modal end -->
+</template>

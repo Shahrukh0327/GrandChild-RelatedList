@@ -1,0 +1,5 @@
+<aura:component implements="force:appHostable, lightning:isUrlAddressable">
+  <aura:handler name="render" value="{!this}" action="{!c.onRender}" />
+  <lightning:workspaceAPI aura:id="workspace" />
+  <c:businessUnitRelatedList></c:businessUnitRelatedList>
+</aura:component>

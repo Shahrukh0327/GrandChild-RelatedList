@@ -1,0 +1,17 @@
+<template>
+  <div if:true={hasRecords} class="slds-tabs_card slds-tabs_medium">
+    <lightning-tabset>
+      <template for:each={profiles.data.records} for:item="p">
+        <lightning-tab key={p.id} label={p.recordTypeInfo.name} value={p.id}>
+          <c-business-unit-profile-tab
+            record-id={recordId}
+            object-api-name={objectApiName}
+            parent-rec-id={parentRecId}
+            profile-id={p.id}
+            profile-name={p.recordTypeInfo.name}
+          ></c-business-unit-profile-tab>
+        </lightning-tab>
+      </template>
+    </lightning-tabset>
+  </div>
+</template>

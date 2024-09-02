@@ -1,0 +1,8 @@
+.titlelink {
+  --lwc-inputStaticColor: rgb(1, 118, 211);
+}
+.slds-page-header.border-bottom {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom: var(--lwc-borderWidthThin) solid var(--lwc-colorBorderButtonDefault);
+}
